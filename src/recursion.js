@@ -137,8 +137,6 @@ function powerOfTwo(num){
       return powerOfTwo(num/2);
   }
 }
-// base = 2, exp = n
-// 2 ^ n = what we want
 
 // 9. Write a function that accepts a string a reverses it.
 function reverse(string){
@@ -189,7 +187,15 @@ var modulo = function(x, y) {
 // ATTENTION DO NOT LEAVE COMMENTS IN THIS FUNCTION. The test is looking for any ('/').
 // multiply(2, 4) // 2 + 2 + 2 + 2 OR 4 + 4
 var multiply = function(x, y) {
-
+  if (x === 0 || y === 0){
+    return 0;
+  }
+  if (x > 0){
+    return y + multiply(x-1, y)
+  }
+  if (x < 0){
+    return -y + multiply(x+1, y)
+  }
 };
 
 // NO
@@ -266,8 +272,16 @@ var reverseArr = function(array, array1 = []){
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
-var buildList = function(value, length) {
-};
+var buildList = function(value, length, output=[]) {
+  // base
+  // once this base is found, the recursion will stop
+  if (length === output.length){
+    return output;
+  }
+  // recursion
+  output.push(value);
+  return buildList(value, length, output);
+}
 
 // 19. Count the occurence of a value inside a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
@@ -291,7 +305,15 @@ var countOccurrence = function(array, value) {
 // 20. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback, output=[]) {
-  
+  // base
+  // once this base is found, the recursion will stop
+  if (array.length === 0){
+    return output;
+  }
+
+  // recursion
+  output.push(array[0] * 2);
+  return rMap(array.slice(1), callback, output);
 };
 
 // NO
@@ -331,7 +353,20 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
-};
+  // base
+  // once this base is found, the recursion will stop
+  if (n === 0){
+    return 0;
+  }
+  if (n === 1){
+    return 1;
+  }
+  if (n < 0){
+    return null;
+  }
+  // recursion
+  return nthFibo(n-1) + nthFibo(n-2);
+}
 
 // 26. Given an array of words, return a new array containing each word capitalized.
 // var words = ['i', 'am', 'learning', 'recursion'];
@@ -381,16 +416,39 @@ var flatten = function(arrays) {
 
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
-var letterTally = function(str, obj) {
-};
+var letterTally = function(str, obj, output={}) {
+  // base
+  // once this base is found, the recursion will stop
+  if (str.length === 0){
+    return output;
+  }
+  // recursion
+  if (output[str[0]] === undefined){
+    output[str[0]] = 1;
+  } else {
+    output[str[0]] += 1;
+  }
+  return letterTally(str.slice(1), obj, output);
+}
 
 // 31. Eliminate consecutive duplicates in a list.  If the list contains repeated
 // elements they should be replaced with a single copy of the element. The order of the
 // elements should not be changed.
 // Example: compress([1, 2, 2, 3, 4, 4, 5, 5, 5]) // [1, 2, 3, 4, 5]
 // Example: compress([1, 2, 2, 3, 4, 4, 2, 5, 5, 5, 4, 4]) // [1, 2, 3, 4, 2, 5, 4]
-var compress = function(list) {
-};
+var compress = function(list, output=[]) {
+  // base
+  // once this base is found, the recursion will stop
+  if (list.length === 0){
+    return output;
+  }
+
+  // recursion
+  if (list[0] !== list[1]){
+    output.push(list[0]);
+  }
+  return compress(list.slice(1), output);
+}
 
 // NO
 // 32. Augment every element in a list with a new value where each element is an array
@@ -402,8 +460,25 @@ var augmentElements = function(array, aug) {
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
-var minimizeZeroes = function(array) {
-};
+var minimizeZeroes = function(array, output=[]){
+  // base
+  // once this base is found, the recursion will stop
+  if (array.length === 0){
+    return output;
+  }
+
+  // recursion
+  // only push if the preceding element is not 0
+  if (array[0] !== 0 && array[1] === 0){
+    output.push(array[0])
+    return minimizeZeroes(array.slice(1), output);
+  } else if (array[0] === 0 && array[1] === 0){
+    return minimizeZeroes(array.slice(1), output);
+  } else {
+    output.push(array[0]);
+    return minimizeZeroes(array.slice(1), output);
+  }
+}
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
 // their original sign.  The first number in the index always needs to be positive.
