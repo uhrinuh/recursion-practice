@@ -32,8 +32,6 @@ var sum = function(array){
   return array[0] + sum(array.slice(1));
 }
 
-
-
 // NO
 // 3. Sum all numbers in an array containing nested arrays.
 // Example: arraySum([1,[2,3],[[4]],5]); // 15
@@ -153,7 +151,27 @@ function reverse(string){
 // "anirA"
 
 // 10. Write a function that determines if a string is a palindrome.
-var palindrome = function(string) {
+// palindrome = same backwards and forwards
+// IGNORE SPACES AND CAPITALIZATION
+// palindrome = same backwards and forwards
+// IGNORE SPACES AND CAPITALIZATION
+var palindrome = function(string){
+  // replace space to have no spaces
+  var newString = string.replace(/ /g, '');
+  // base
+  // if the string is empty, all characters that were sliced have been checked so it is a palindrome
+  if (newString.length === 0){
+    // return true
+    return true;
+  }
+  // if the first value of the string is not the same as the last value of the string
+  if (newString[0].toLowerCase() !== newString[newString.length - 1].toLowerCase()){
+    // return false
+    return false;
+  }
+  // recursion
+  // if the string is "jamie" we slice it at the letter j and e
+  return palindrome(newString.slice(1, newString.length - 1));
 };
 
 // NO
@@ -194,17 +212,56 @@ function gcd(x, y) {
 // compareStr('house', 'houses') // false
 // compareStr('', '') // true
 // compareStr('tomato', 'tomato') // true
-var compareStr = function(str1, str2) {
-};
+var compareStr = function(str1, str2){
+  // base
+  // if str1 and str2 are empty, that means each character matched
+  if (str1.length === 0 && str2.length === 0) {
+    // return true
+    return true;
+  }
+  // recursion
+  // if the first character of str1 is the same as the first chaacter of str2
+  if (str1[0] === str2[0]) {
+    // return the result of calling compareStr with str1 and str2 sliced at the first character
+    return compareStr(str1.slice(1), str2.slice(1));
+    // if the characters aren't the same
+  } else {
+    // return false
+    return false;
+  }
+}
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
-var createArray = function(str){
-};
+// ex: 'hello' => ['h', 'e', 'l', 'l', 'o']
+var createArray = function(str, array =[]){
+  // base
+  // once this base is found, the recursion will stop
+  // if the string's length = 0 aka there is no longer a string
+  if (str.length === 0){
+    // return an ampty array
+    return array;
+  }
+  // recursion
+  // add the first character of the string to the array
+  array.push(str[0]);
+  // return the result of calling createArray with str sliced at the first character and the array
+  return createArray(str.slice(1), array);
+}
 
 // 17. Reverse the order of an array
-var reverseArr = function (array) {
-};
+var reverseArr = function(array, array1 = []){
+  // base
+  // once this base is found, the recursion will stop
+  if (array.length === 0){
+    return array1;
+  }
+  // recursion
+  // push the last element of the original array into array1
+  array1.push(array[array.length - 1])
+  // return the result of calling reverseArr with the original array sliced at the last element and array1
+  return reverseArr(array.slice(0, array.length-1), array1)
+}
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
@@ -216,7 +273,20 @@ var buildList = function(value, length) {
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
-};
+  // base
+  // if the array is empty, return 0
+  if (array.length === 0){
+    return 0;
+  }
+  // recursion
+  // if the first element of the array is the value, add 1 to the count
+  if (array[0] === value){
+    // return 1 + the result of calling itself again with the rest of the array (starting at the second element) and the same value
+    return 1 + countOccurrence(array.slice(1), value);
+  }
+  // if the first element of the array is not the value, add 0 to the count
+  return 0 + countOccurrence(array.slice(1), value);
+}
 
 // 20. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
@@ -266,13 +336,29 @@ var nthFibo = function(n) {
 // 26. Given an array of words, return a new array containing each word capitalized.
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
-var capitalizeWords = function(input) {
-};
+var capitalizeWords = function(input, array = []) {
+  // base
+  // once this base is found, the recusion will stop
+  if (input.length === 0){
+    return array;
+  }
+  // recursion
+  array.push(input[0].toUpperCase());
+  return capitalizeWords(input.slice(1), array);
+}
 
 // 27. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car', 'poop', 'banana']); // ['Car', 'Poop', 'Banana']
-var capitalizeFirst = function(array) {
-};
+var capitalizeFirst = function(array, array1 = []) {
+  // base
+  // once this base is found, the recusion will stop
+  if (array.length === 0){
+    return array1;
+  }
+  // recursion
+  array1.push(array[0][0].toUpperCase() + array[0].slice(1));
+  return capitalizeFirst(array.slice(1), array1);
+}
 
 // NO
 // 28. Return the sum of all even numbers in an object containing nested objects.
