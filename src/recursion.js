@@ -121,7 +121,7 @@ var exponent = function(base, exp) {
       return base * exponent(base, exp - 1);
   }
 };
-// 8^3 = 8 * 8 * 8 = 192
+// 8^3 = 8 * 8 * 8 = 512
 // we want to multiply the base by however many exponents we have
 
 // 8. Determine if a number is a power of two.
@@ -145,8 +145,7 @@ function reverse(string){
   }
   return reverse(string.slice(1)) + string[0];
 }
-// "Arina"
-// "anirA"
+// "arina" => "anira"
 
 // 10. Write a function that determines if a string is a palindrome.
 // palindrome = same backwards and forwards
@@ -485,13 +484,59 @@ var minimizeZeroes = function(array, output=[]){
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
-};
+  // base
+  // once this base is found, the recursion will stop
+  if (array.length === 0){
+    return array;
+  }
+  // recursion
+  // if the first element is negative, multiply by -1
+  if (array[0] < 0){
+    array[0] *= -1;
+  }
+  // if the second element is negative, multiply by -1
+  if (array[1] < 0){
+    array[1] *= -1;
+  }
+  // return the result of calling alternateSign with the rest of the array
+  return [array[0], array[1], ...alternateSign(array.slice(2))];
+}
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
-var numToText = function(str) {
-};
+var numToText = function(str, output=""){
+  // base
+  // once this base is found, the recursion will stop
+  if (str.length === 0){
+    return output;
+  }
+  // recursion
+  // if the first element is a number, replace it with the word equivalent
+  if (str[0] === "1"){
+    output += "one";
+  } else if (str[0] === "2"){
+    output += "two";
+  } else if (str[0] === "3"){
+    output += "three";
+  } else if (str[0] === "4"){
+    output += "four";
+  } else if (str[0] === "5"){
+    output += "five";
+  } else if (str[0] === "6"){
+    output += "six";
+  } else if (str[0] === "7"){
+    output += "seven";
+  } else if (str[0] === "8"){
+    output += "eight";
+  } else if (str[0] === "9"){
+    output += "nine";
+  } else {
+    output += str[0];
+  }
+  // slice off the first element
+  return numToText(str.slice(1), output);
+}
 
 // *** EXTRA CREDIT ***
 
